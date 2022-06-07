@@ -7,7 +7,7 @@ tags:
   - snippet
 ---
 
-When using [Traefik](https://doc.traefik.io/) as your [Kubernetes ingress controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) you might want to add a trailing slash (`/about` → `/about/`) to prevent duplicate routes. Traefik does not (yet) support adding trailing slashes through a configuration option[<sup>[1]</sup>](https://github.com/traefik/traefik/issues/563)[<sup>[2]</sup>](https://github.com/traefik/traefik/issues/5159). You can use this snippet to create a [Traefik IngressRoute](https://doc.traefik.io/traefik/routing/providers/kubernetes-crd/) and [Traefik Middleware](https://doc.traefik.io/traefik/middlewares/http/redirectscheme/) that will do just that.
+When using [Traefik](https://doc.traefik.io/) as your [Kubernetes ingress controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) you might want to add a trailing slash (`/about` → `/about/`) to prevent duplicate routes. Traefik does not (yet) support adding trailing slashes through a configuration option[<sup>[1]</sup>](https://github.com/traefik/traefik/issues/563)[<sup>[2]</sup>](https://github.com/traefik/traefik/issues/5159). You can use this snippet to create a [Traefik IngressRoute](https://doc.traefik.io/traefik/routing/providers/kubernetes-crd/) and [Traefik Middleware](https://doc.traefik.io/traefik/middlewares/http/redirectscheme/) that will do just that. Add this next to your normal `IngressRoute` for `www.my-domain.com`.
 
 ## Prerequisites
 
@@ -28,10 +28,14 @@ spec:
     - websecure # Change this?
   routes:
     - kind: Rule
+
       # Matches requests with a non-empty path and only ones that do not end with
       # a file extension (e.g. '.jpg') or an already existing trailing slash
       match: "Host(`www.my-domain.com`) && PathPrefix(`/{path:.+}`) && !Path(`/{path:(.+)(\\.\\w+|/)}`)" # Change this
+
+      # Make sure this matching rule will be checked first
       priority: 200
+
       middlewares:
         - name: add-trailing-slash
           namespace: traefik

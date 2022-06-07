@@ -1,0 +1,31 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: my-domain-com-add-trailing-slash # Change this
+  namespace: default # Change this?
+spec:
+  entryPoints:
+    - websecure # Change this?
+  routes:
+    - kind: Rule
+      # Matches requests with a non-empty path and only ones that do not end with
+      # a file extension (e.g. '.jpg') or an already existing trailing slash
+      match: "Host(`www.my-domain.com`) && PathPrefix(`/{path:.+}`) && !Path(`/{path:(.+)(\\.\\w+|/)}`)" # Change this
+      priority: 200
+      middlewares:
+        - name: add-trailing-slash
+          namespace: traefik
+      services:
+        - kind: TraefikService
+          name: noop@internal
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: add-trailing-slash
+  namespace: traefik
+spec:
+  redirectRegex:
+    permanent: true
+    regex: "^https?://(.*)/(.+)"
+    replacement: "https://${1}/${2}/"

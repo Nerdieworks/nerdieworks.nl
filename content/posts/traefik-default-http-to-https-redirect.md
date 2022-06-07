@@ -3,11 +3,12 @@ title: "Traefik: default HTTP to HTTPS redirect"
 date: 2022-06-07T12:51:50+02:00
 tags:
   - traefik
-  - security
+  - tutorial
   - snippet
+  - security
 ---
 
-When using [Traefik](https://doc.traefik.io/) as your [Kubernetes ingress controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) you would probably want a default HTTP to HTTPS redirect. You can use this snippet to create a [Traefik IngressRoute](https://doc.traefik.io/traefik/routing/providers/kubernetes-crd/) and [Traefik Middleware](https://doc.traefik.io/traefik/middlewares/http/redirectscheme/) that will do exactly that.
+When using [Traefik](https://doc.traefik.io/) as your [Kubernetes ingress controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) you would probably want a default HTTP to HTTPS redirect. You can use this snippet to create a [Traefik IngressRoute](https://doc.traefik.io/traefik/routing/providers/kubernetes-crd/) and [Traefik Middleware](https://doc.traefik.io/traefik/middlewares/http/redirectscheme/) that will do just that.
 
 ## Prerequisites
 
@@ -25,7 +26,7 @@ metadata:
   namespace: traefik
 spec:
   entryPoints:
-    - web
+    - web # Change this?
   routes:
     - kind: Rule
       match: PathPrefix(`/`)
@@ -51,9 +52,9 @@ spec:
 
 1. Save the snippet above to a file called `http-to-https-redirect.yaml`. [You can download it here](/resources/http-to-https-redirect.yaml)
 
-2. Update the `entryPoints` list to your HTTP entrypoint(s) if needed. Traefik uses `web` for HTTP by default.
+2. Make the necessary changes
 
-3. Create resources:
+3. Create the resources:
 
    ```bash
    kubectl apply -f http-to-https-redirect.yaml
@@ -63,11 +64,13 @@ spec:
 
    ```bash
    curl -v http://example.com/ --resolve example.com:80:{your server IP}
+   # 301 Moved Permanently
+   # Location: https://example.com
    ```
 
 ## Notes
 
-This `IngressRoute` will match **any** host with **any** path. It will return a `301 Moved Permanently`.
+This `IngressRoute` will match **any** host with **any** path.
 
 Using `priority: 1` ensures that other `IngressRoute` resources for the `web` entrypoint override the redirect. See [docs on routing priority](https://doc.traefik.io/traefik/routing/routers/#priority_1).
 

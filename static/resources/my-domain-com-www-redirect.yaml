@@ -1,0 +1,28 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: my-domain-com-www-redirect # Change this
+  namespace: default # Change this?
+spec:
+  entryPoints:
+    - websecure # Change this?
+  routes:
+    - kind: Rule
+      match: Host(`my-domain.com`) # Change this
+      middlewares:
+        - name: redirect-to-www
+          namespace: traefik
+      services:
+        - kind: TraefikService
+          name: noop@internal
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-to-www
+  namespace: traefik
+spec:
+  redirectRegex:
+    permanent: true
+    regex: "^https?://(?:www\\.)?(.+)"
+    replacement: "https://www.${1}"

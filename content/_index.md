@@ -1,8 +1,9 @@
 ---
 title: Home
 menu:
-  - main
-weight: -270
+  sidebar:
+    title: Home
+    weight: -100
 ---
 
 > If you're not paying for it, you're not the customer; you're the product.

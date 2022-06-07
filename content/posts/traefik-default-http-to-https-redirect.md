@@ -1,5 +1,5 @@
 ---
-title: "Traefik HTTP to HTTPS redirect"
+title: "Traefik: default HTTP to HTTPS redirect"
 date: 2022-06-07T12:51:50+02:00
 tags:
   - traefik
@@ -7,9 +7,13 @@ tags:
   - snippet
 ---
 
-# Traefik HTTP to HTTPS redirect
-
 When using [Traefik](https://doc.traefik.io/) as your [Kubernetes ingress controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) you would probably want a default HTTP to HTTPS redirect. You can use this snippet to create a [Traefik IngressRoute](https://doc.traefik.io/traefik/routing/providers/kubernetes-crd/) and [Traefik Middleware](https://doc.traefik.io/traefik/middlewares/http/redirectscheme/) that will do exactly that.
+
+## Prerequisites
+
+- A running instance of Traefik v2 in a Kubernetes cluster
+- `kubectl` access to the Kubernetes cluster
+- External IP address of the server/VM for testing
 
 ## Snippet
 
@@ -45,15 +49,26 @@ spec:
 
 ## Usage
 
-1. Save the snippet above to a file called `http-to-https-redirect.yaml`
-2. Update the `entryPoints` to your HTTP entrypoint(s). Traefik uses `web` for HTTP by default.
-3. Run `kubectl apply -f http-to-https-redirect.yaml`
-4. Try it out with `curl -v http://example.com/ --resolve example.com:80:{your server IP}`
+1. Save the snippet above to a file called `http-to-https-redirect.yaml`. [You can download it here](/resources/http-to-https-redirect.yaml)
+
+2. Update the `entryPoints` list to your HTTP entrypoint(s) if needed. Traefik uses `web` for HTTP by default.
+
+3. Create resources:
+
+   ```bash
+   kubectl apply -f http-to-https-redirect.yaml
+   ```
+
+4. Try it out with:
+
+   ```bash
+   curl -v http://example.com/ --resolve example.com:80:{your server IP}
+   ```
 
 ## Notes
 
 This `IngressRoute` will match **any** host with **any** path. It will return a `301 Moved Permanently`.
 
-Using `priority: 1` ensures that another `IngressRoute` resource for the `web` entrypoint overrides the redirect. See [docs on routing priority](https://doc.traefik.io/traefik/routing/routers/#priority_1).
+Using `priority: 1` ensures that other `IngressRoute` resources for the `web` entrypoint override the redirect. See [docs on routing priority](https://doc.traefik.io/traefik/routing/routers/#priority_1).
 
 In case you've enabled the `providers.kubernetesCRD.ingressClass` in the static configuration, you will have to add the [`kubernetes.io/ingress.class`](https://doc.traefik.io/traefik/providers/kubernetes-crd/#ingressclass) annotation to the `IngressRoute`.

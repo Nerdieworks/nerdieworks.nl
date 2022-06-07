@@ -22,13 +22,15 @@ enableEmoji = true
 defaultContentLanguage = "en"
 
 [params.info]
-description = "Machine Learning & DevOps babble"
+description = "DevOps babble"
 title404 = "Nothing's here!"
 
 [params.assets]
 favicon = "favicon.ico"
-customCSS = ["css/custom.css"]
-customJS = ["js/custom.js"]
+#customCSS = ["css/custom.css"]
+#customJS = ["js/custom.js"]
+customCSS = []
+customJS = []
 gopher = "" # used in 404 template ( Generator: https://gopherize.me )
 
 [params.copyright]
@@ -57,7 +59,7 @@ enable = true
 [params.widgets]
 header = ["breadcrumbs"]
 homepage = ["recent_posts"]
-sidebar = ["about","search","sidebar_menu","taxonomy_cloud"]
+sidebar = ["about","sidebar_menu","taxonomy_cloud"]
 footer = ["social_menu"]
 
 [params.opengraph.facebook]
@@ -74,7 +76,7 @@ titleSeparator = "•"
 
 [params.social]
 email = "maurits@nerdieworks.nl"
-github = "mauvm"
+github = "Nerdieworks"
 linkedin = "mauritsvanmastrigt"
 telegram = "mauvm"
 
@@ -97,7 +99,9 @@ repository = "minimo"
 # Utterances: https://utteranc.es
 [params.comments.utterances]
 enable = false
-issueTerm = "pathname" # pathname / url / title
+issueTerm = "pathname" # pathname / url / title / og:title / <string>
+label = ""
+theme = "github-light"
 
 [params.comments.utterances.github]
 username = "mauvm"
@@ -120,8 +124,13 @@ tag = "tags"
 [permalinks]
 page = "/:slug/"
 
-[blackfriday]
-hrefTargetBlank = true
+#[[menu.main]]
+#name = "Repo"
+#weight = -10
+#identifier = "repository"
+#url = "https://github.com/Nerdieworks/minimo"
+#[blackfriday]
+#hrefTargetBlank = true
 
 [languages]
 # edit this block for your own language

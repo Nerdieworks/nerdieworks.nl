@@ -5,10 +5,6 @@ menu:
 weight: -270
 ---
 
-Turning floating point calculations into an system that [outperforms human facial recognition](https://arxiv.org/pdf/1804.06655.pdf#page-8) baffles me.
-After following AI related news for a while, I decided to try it myself.
-Anything noteworthy will be posted on this blog.
-
 > If you're not paying for it, you're not the customer; you're the product.
 >
 > — Andrew Lewis

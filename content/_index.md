@@ -13,4 +13,4 @@ It's no secret that companies are collecting vast amounts of user data.
 They say data has become more valuable than gold.
 My problem with the current business model of many great "free" services,
 is that you can't opt out by paying a subscription fee.
-Thus I decided to start self-hosting and learn some DevOps-ing along the way.
+Thus I decided to start self-hosting and learn some DevOps skills along the way.

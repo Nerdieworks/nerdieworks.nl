@@ -2,7 +2,6 @@
 
 ## To do
 
-- Enable comments
 - Enable using <sup>super</sup> and <sub>sub</sub> tags
 - Track viewer statistics
 - Add images to posts (liven it up a little)

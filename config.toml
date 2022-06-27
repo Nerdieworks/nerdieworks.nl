@@ -81,7 +81,7 @@ linkedin = "mauritsvanmastrigt"
 telegram = "mauvm"
 
 [params.comments]
-enable = false
+enable = true
 
 # Isso: https://posativ.org/isso/
 [params.comments.isso]
@@ -90,7 +90,7 @@ scriptSrc = "" # "https://isso.example.com/js/embed.min.js"
 dataAttrs = "" # "data-isso='https://isso.example.com' data-isso-require-author='true'"
 
 [params.comments.staticman]
-enable = true
+enable = false
 apiEndpoint = "https://api.staticman.net/v2/entry"
 maxDepth = 2
 username = "maurits"
@@ -98,14 +98,14 @@ repository = "minimo"
 
 # Utterances: https://utteranc.es
 [params.comments.utterances]
-enable = false
+enable = true
 issueTerm = "pathname" # pathname / url / title / og:title / <string>
-label = ""
+label = "comment"
 theme = "github-light"
 
 [params.comments.utterances.github]
-username = "mauvm"
-repository = "minimo"
+username = "Nerdieworks"
+repository = "nerdieworks.nl"
 
 [params.search]
 client = "fuse" # algolia / fuse / lunr
